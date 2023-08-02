@@ -20,7 +20,6 @@
   + id，
   + title，标题，脚本的标题，varchar
   + description，描述，对脚本功能的描述，varchar
-  + applied_websit，脚本应用在什么网站（要有格式要求），varchar
   + author_id，作者id，关联user_id，integer
   + update_time，上传时间，datetime
   + download_count，下载次数，integer
@@ -37,5 +36,10 @@
 + operation，操作表
   + op_id
   + op_name，操作名字，收藏/下载等
-
-+ 
++ website，网页表，记录已经有哪些网页的脚本了，以URL匹配的形式存
+  + id
+  + url，varchar
+  + description，对网页的描述（网页名称），varchar
++ script_website，脚本与应用网页关联表
+  + script_id
+  + website_id
