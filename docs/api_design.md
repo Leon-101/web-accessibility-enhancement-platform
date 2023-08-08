@@ -81,7 +81,7 @@
 
 #### 脚本列表
 
-+ url:`/scripts
++ url:`/scripts`
 
 + 查询参数：
 
