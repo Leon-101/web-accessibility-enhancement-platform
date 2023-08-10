@@ -1,45 +1,45 @@
 ### 表
 
 + user用户表，记录用户信息
-  + id，integer，自增，主键
-  + username，用户名，varchar
-  + password，密码，加密
-  + email，邮箱，varchar
-  + role_id，角色，integer
+    + id，integer，自增，主键
+    + username，用户名，varchar
+    + password，密码，加密
+    + email，邮箱，varchar
+    + role_id，角色，integer
 + role，角色表
-  + role_id，integer，自增，主键
-  + role_name，角色名（普通用户，管理员，开发者），varchar
+    + role_id，integer，自增，主键
+    + role_name，角色名（普通用户，管理员，开发者），varchar
 + permission，权限表
-  + permission_id，
-  + permission_name，权限名（管理，上传，下载等），varchar
-  + permission_url，权限地址，如果需要，varchar
+    + permission_id，
+    + permission_name，权限名（管理，上传，下载等），varchar
+    + permission_url，权限地址，如果需要，varchar
 + role_permission，角色与权限
-  + role_id，integer
-  + permission_id，integer
+    + role_id，integer
+    + permission_id，integer
 + script，脚本表
-  + id，
-  + title，标题，脚本的标题，varchar
-  + description，描述，对脚本功能的描述，varchar
-  + author_id，作者id，关联user_id，integer
-  + update_time，上传时间，datetime
-  + download_count，下载次数，integer
-  + stars，收藏/星标/喜欢数，integer
-  + script_path，脚本文件路径，varchar
-  + readme，脚本的说明文档，不同于描述，那个是简单的，这个详细，以md形式。
+    + id，
+    + title，标题，脚本的标题，varchar
+    + description，描述，对脚本功能的描述，varchar
+    + author_id，作者id，关联user_id，integer
+    + update_time，上传时间，datetime
+    + download_count，下载次数，integer
+    + stars，收藏/星标/喜欢数，integer
+    + script_path，脚本文件路径，varchar
+    + readme，脚本的说明文档，不同于描述，那个是简单的，这个详细，以md形式。
 + comment，评论表，暂时不要
 + task，任务/需求表，暂时不加
 + user_opertion，用户操作记录表，收藏星标、下载
-  + id，记录id
-  + script_id，脚本id
-  + user_id，用户id
-  + op_id，
+    + id，记录id
+    + script_id，脚本id
+    + user_id，用户id
+    + op_id，
 + operation，操作表
-  + op_id
-  + op_name，操作名字，收藏/下载等
+    + op_id
+    + op_name，操作名字，收藏/下载等
 + website，网页表，记录已经有哪些网页的脚本了，以URL匹配的形式存
-  + id
-  + url，varchar
-  + description，对网页的描述（网页名称），varchar
+    + id
+    + url，varchar
+    + description，对网页的描述（网页名称），varchar
 + script_website，脚本与应用网页关联表
-  + script_id
-  + website_id
+    + script_id
+    + website_id

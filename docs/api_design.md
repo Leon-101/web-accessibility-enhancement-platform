@@ -33,18 +33,16 @@
   	"password":"string"
   }
   ```
-  
+
 + response
-  
-    + 状态码： 200
+
+  + 状态码： 200
 
     ```json
     {
-        "access_token": "string",
+        "access_token": "string"
     }
     ```
-  
-    
 
 #### 注册
 
@@ -61,21 +59,19 @@
   	"email":"string",
   	"whatsup":"string",	//个性签名
   	"gender":"string",	//性别
-  	"region":"string",	//地区
+  	"region":"string"	//地区
   }
   ```
-  
+
 + response
-  
-    + 状态码： 200
+
+  + 状态码： 200
 
     ```json
     {
         "user_id": "string"
     }
     ```
-  
-    
 
 ### 脚本库
 
@@ -112,17 +108,15 @@
   }
   ```
 
-
 #### 脚本详情
 
-
-+ url:`/scripts/detail?id={number}`
++ url:`/scripts/detail?script_id={string}`
 
 + method:`GET`
 
 + 查询参数：
 
-  - id (int, required): 脚本的 ID
+  - script_id (string, required): 脚本的 ID
 
 + 返回：
 
@@ -137,7 +131,7 @@
       "author": "string",
       "stars": "number",
       "create_time": "datetime",
-      "content":"string"
+      "script_url":"string"
     }
   }
   ```
