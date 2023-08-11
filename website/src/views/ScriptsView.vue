@@ -28,9 +28,36 @@ watch(currentPage, () => {
 });
 
 const fetchScripts = async () => {
-  scriptData.value = simulatedScriptData;
-  totalScripts.value = scriptData.value.length;
-  displayedScripts.value = scriptData.value;
+  const apiUrl = API_BASE_URL + "/scripts";
+  const queryParams = {
+    sort_by: form.value.sorBy,
+    order: "desc",
+    limit: 10,
+    offset: 1,
+  };
+
+  const url = new URL(apiUrl);
+  // todo
+  // url.search = new URLSearchParams(queryParams).toString();
+
+  fetch(url)
+    .then(response => {
+      if (!response.ok) {
+        alert("请求出错");
+      }
+      return response.json();
+    })
+    .then(data => {
+      scriptData.value = data.data;
+      totalScripts.value = scriptData.value.length;
+      displayedScripts.value = scriptData.value;
+    })
+    .catch(error => {
+      alert("请求出错，显示填充数据");
+      scriptData.value = simulatedScriptData;
+      totalScripts.value = scriptData.value.length;
+      displayedScripts.value = scriptData.value;
+    });
 };
 
 // 初始化时获取脚本列表数据
@@ -39,8 +66,8 @@ onMounted(fetchScripts);
 </script>
 
 <template>
-  <!-- 列表筛选区 -->
   <el-main>
+    <!-- 列表筛选区 -->
     <el-form :model="form" :inline="true" @submit.native.prevent="submitForm">
       <el-form-item label="搜索">
         <el-input v-model="form.keyword" placeholder="请输入脚本名称或目标网址"></el-input>
@@ -60,13 +87,13 @@ onMounted(fetchScripts);
       <el-col :span="12">
         <el-card v-for="script in displayedScripts" :key="script.id" class="script-card">
           <template #header>
-            <h3><el-link>{{ script.title }}</el-link></h3>
+            <h3><router-link :to="`/script_details/${script.id}`">{{ script.title }}</router-link></h3>
           </template>
           <div class="script-info">
             <p>{{ script.description }}</p>
             <p>作者：{{ script.author }}</p>
-            <p>创建时间：{{ script.create_time }}</p>
-            <p>下载量：{{ script.downloads }}</p>
+            <p>创建时间：{{ new Date(script.create_time).toLocaleString() }}</p>
+            <p>收藏数：{{ script.stars || 0 }}</p>
           </div>
           <div class="details-link">
             <!-- <router-link :to="`/scripts/${script.id}`">查看详情</router-link> -->
