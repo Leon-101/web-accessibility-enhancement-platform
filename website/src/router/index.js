@@ -13,13 +13,6 @@ const router = createRouter({
       path: '/scripts',
       name: 'scripts',
       component: () => import('../views/ScriptsView.vue'),
-      children: [
-        {
-          path: ':script_id',
-          name: 'script_detail',
-          component: () => import('../views/ScriptDetailView.vue')
-        },
-      ]
     },
     {
       path: '/needs',
@@ -34,10 +27,12 @@ const router = createRouter({
     {
       path: '/about',
       name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
       component: () => import('../views/AboutView.vue')
+    },
+    {
+      path: '/register',
+      name: 'register',
+      component: () => import('../views/RegisterView.vue')
     },
     {
       path: '/login',
@@ -45,9 +40,14 @@ const router = createRouter({
       component: () => import('../views/LoginView.vue')
     },
     {
-      path: '/register',
-      name: 'register',
-      component: () => import('../views/RegisterView.vue')
+      path: '/reset_password',
+      name: 'reset_password',
+      component: () => import('../views/ResetPasswordView.vue')
+    },
+    {
+      path: '/script_details/:script_id',
+      name: 'script_detail',
+      component: () => import('../views/ScriptDetailView.vue')
     },
   ]
 })

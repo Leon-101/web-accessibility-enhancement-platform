@@ -1,5 +1,5 @@
-const API_host = "https://localhost:8000";
+const API_BASE_URL = "http://localhost:8000";
 
 export {
-	API_host,
+	API_BASE_URL,
 }
