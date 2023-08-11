@@ -15,6 +15,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from app01.views import *
+from app01.make_data import makedata
 # from django.contrib import admin
 from django.urls import path
 # from django.urls import re_path
@@ -29,4 +30,8 @@ urlpatterns = [
 
     path("scripts", scripts_list),
     path("scripts/detail", scripts_detail),
+
+    path("makedata", makedata),
+
+
 ]

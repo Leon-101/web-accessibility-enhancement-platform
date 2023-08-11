@@ -5,10 +5,12 @@
     + username，用户名，varchar
     + password，密码，加密
     + email，邮箱，varchar
-    + role_id，角色，integer
+    + role_id，角色，smallint
+    + whatsup,个性签名，varchar
+    + gender,性别，smallint
 + role，角色表
-    + role_id，integer，自增，主键
-    + role_name，角色名（普通用户，管理员，开发者），varchar
+    + id，integer，自增，主键
+    + name，角色名（普通用户，管理员，开发者），varchar
 + permission，权限表
     + permission_id，
     + permission_name，权限名（管理，上传，下载等），varchar
@@ -17,22 +19,28 @@
     + role_id，integer
     + permission_id，integer
 + script，脚本表
-    + id，
+    + id，varchar
     + title，标题，脚本的标题，varchar
     + description，描述，对脚本功能的描述，varchar
     + author_id，作者id，关联user_id，integer
-    + update_time，上传时间，datetime
+    + create_time，上传时间，datetime
     + download_count，下载次数，integer
     + stars，收藏/星标/喜欢数，integer
     + script_path，脚本文件路径，varchar
     + readme，脚本的说明文档，不同于描述，那个是简单的，这个详细，以md形式。
+    + status,脚本状态，smallint
+  
++ status,脚本状态
+  + id
+  + status，varchar
 + comment，评论表，暂时不要
 + task，任务/需求表，暂时不加
-+ user_opertion，用户操作记录表，收藏星标、下载
++ user_operation，用户操作记录表，收藏星标、下载
     + id，记录id
     + script_id，脚本id
     + user_id，用户id
-    + op_id，
+    + op_id，操作id
+    + create_time，操作时间
 + operation，操作表
     + op_id
     + op_name，操作名字，收藏/下载等

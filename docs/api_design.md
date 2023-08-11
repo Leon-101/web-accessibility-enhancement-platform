@@ -57,9 +57,9 @@
   	"username":"string",
   	"password":"string",
   	"email":"string",
+    "role_id": "number",
   	"whatsup":"string",	//个性签名
   	"gender":"string",	//性别
-  	"region":"string"	//地区
   }
   ```
 

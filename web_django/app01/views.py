@@ -12,21 +12,18 @@ def login(request):
 
 
 def scripts_list(request):
-
     pass
 
 
 def scripts_detail(request):
-    conn = sqlite3.connect("db.sqlite3")
-    cursor = conn.cursor()
-    script_id=request.GET.get("script_id")
-    query=f"select * from scripts where id='{script_id}'"
-    print(query)
-    cursor.execute(query)
-    result=cursor.fetchall()
+    script_id = request.GET.get("script_id")
+    row = Script.objects.filter(id=script_id).first()
+    data = {"id": row.id,
+            "title": row.title,
+            "description": row.description,
+            "stars": row.stars,
+            "create_time": row.create_time,
+            "script_url":row.script_path,
+            }
 
-    for row in result:
-        print(row)
-    cursor.close()
-    conn.close()
-    return HttpResponse("ok")
+    return JsonResponse(data)
