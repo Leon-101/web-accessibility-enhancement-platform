@@ -39,9 +39,9 @@ const handleLogin = async () => {
 <template>
   <el-main>
     <el-row justify="center" align="middle">
-      <el-col :span="8">
-        <h2>登录</h2>
-        <el-form :model="loginForm" label-width="120px">
+      <el-col :span="12">
+        <h2 class="form-title">登录</h2>
+        <el-form :model="loginForm" label-width="auto">
           <el-form-item label="用户名" prop="username">
             <el-input v-model="loginForm.username"></el-input>
           </el-form-item>
@@ -69,3 +69,19 @@ const handleLogin = async () => {
     </el-row>
   </el-main>
 </template>
+
+<style scoped>
+.form-title {
+  font-weight: bold;
+  font-size: 1.5em;
+  margin-bottom: 1em;
+}
+
+.el-form-item {
+  margin-bottom: 1em;
+}
+
+.el-input {
+  width: 60%;
+}
+</style>
