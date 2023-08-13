@@ -2,6 +2,7 @@
 import { ref, reactive, watch, onMounted } from 'vue'
 import { API_BASE_URL } from '../config'
 import { simulatedScriptData } from '../simulatedScriptData'
+import { ElMessage } from 'element-plus'
 
 const sortOptions = ref([
   { value: "create_time", label: "发布时间" },
@@ -43,7 +44,8 @@ const fetchScripts = async () => {
   fetch(url)
     .then(response => {
       if (!response.ok) {
-        alert("请求出错");
+        ElMessage("脚本列表加载失败");
+        throw new Error('not ok');
       }
       return response.json();
     })
@@ -53,7 +55,8 @@ const fetchScripts = async () => {
       displayedScripts.value = scriptData.value;
     })
     .catch(error => {
-      alert("请求出错，显示填充数据");
+      if (error.message == 'not ok') return;
+      ElMessage("网络请求出错，显示填充数据");
       scriptData.value = simulatedScriptData;
       totalScripts.value = scriptData.value.length;
       displayedScripts.value = scriptData.value;

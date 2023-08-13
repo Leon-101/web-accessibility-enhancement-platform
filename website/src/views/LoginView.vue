@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import { RouterLink, useRouter } from 'vue-router';
+import { ElMessage } from 'element-plus';
 import { API_BASE_URL } from '../config'
 
 const router = useRouter();
@@ -12,7 +13,7 @@ const loginForm = ref({
 
 const remember = ref(true);
 
-const handleLogin = async () => {
+const handleLogin = async (e) => {
   try {
     const response = await fetch(API_BASE_URL + '/login', {
       method: 'POST',
@@ -22,15 +23,19 @@ const handleLogin = async () => {
       body: JSON.stringify(loginForm.value),
     });
 
+    const responseBody = response.json();
     if (response.ok) {
       if (remember) {
-        // 存储access_token
+        localStorage.setItem("access_token", responseBody.access_token);
       }
+      sessionStorage.setItem("access_token", responseBody.access_token);
+      ElMessage("登陆成功！");
       router.push('/');
     } else {
-      alert('登录失败');
+      ElMessage("登陆失败，请检查您的用户名和密码。");
     }
   } catch (error) {
+    ElMessage("网络请求出错");
     console.error('登录请求出错', error);
   }
 };
