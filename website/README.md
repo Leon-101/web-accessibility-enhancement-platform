@@ -25,3 +25,11 @@ npm run dev
 ```sh
 npm run build
 ```
+
+## Project Dependencies
+
+- development framework: [Vue.js](https://cn.vuejs.org/)
+- UI components: [Element-plus](http://element-plus.org/)
+- frontend router: [Vue Router](https://router.vuejs.org/)
+- network request: [Axios](https://axios-http.com/)
+- build tools: [Vite](https://vitejs.dev/)
