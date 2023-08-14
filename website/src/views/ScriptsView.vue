@@ -1,6 +1,6 @@
 <script setup>
 import { ref, reactive, watch, onMounted } from 'vue'
-import { API_BASE_URL } from '../config'
+import api from '../api'
 import { simulatedScriptData } from '../simulatedScriptData'
 import { ElMessage } from 'element-plus'
 
@@ -14,6 +14,7 @@ const form = ref({
 });
 
 const submitForm = () => {
+  //todo
   alert("功能开发中……");
 };
 
@@ -29,39 +30,29 @@ watch(currentPage, () => {
 });
 
 const fetchScripts = async () => {
-  const apiUrl = API_BASE_URL + "/scripts";
   const queryParams = {
     sort_by: form.value.sorBy,
     order: "desc",
     limit: 10,
     offset: 1,
   };
-
-  const url = new URL(apiUrl);
   // todo
-  // url.search = new URLSearchParams(queryParams).toString();
-
-  fetch(url)
-    .then(response => {
-      if (!response.ok) {
-        ElMessage("脚本列表加载失败");
-        throw new Error('not ok');
-      }
-      return response.json();
-    })
-    .then(data => {
+  api.get("/scripts")
+    .then(({ data }) => {
       scriptData.value = data.data;
       totalScripts.value = scriptData.value.length;
       displayedScripts.value = scriptData.value;
-    })
-    .catch(error => {
-      if (error.message == 'not ok') return;
-      ElMessage("网络请求出错，显示填充数据");
-      scriptData.value = simulatedScriptData;
-      totalScripts.value = scriptData.value.length;
-      displayedScripts.value = scriptData.value;
+    }).catch(({ response, request }) => {
+      if (response) {
+        ElMessage.warning(`脚本列表加载失败，状态码：${response.status}`);
+      } else if (request) {
+        ElMessage.error("网络请求出错，显示填充数据");
+        scriptData.value = simulatedScriptData;
+        totalScripts.value = scriptData.value.length;
+        displayedScripts.value = scriptData.value;
+      }
     });
-};
+}
 
 // 初始化时获取脚本列表数据
 onMounted(fetchScripts);
@@ -87,23 +78,22 @@ onMounted(fetchScripts);
 
     <!-- 脚本列表 -->
     <el-row justify="center" align="middle">
-      <el-col :span="12">
-        <el-card v-for="script in displayedScripts" :key="script.id" class="script-card">
+      <el-col :span="18">
+        <el-card class="script-card" v-for="script in displayedScripts" :key="script.id">
           <template #header>
             <h3><router-link :to="`/script_details/${script.id}`">{{ script.title }}</router-link></h3>
           </template>
           <div class="script-info">
             <p>{{ script.description }}</p>
             <p>作者：{{ script.author }}</p>
-            <p>创建时间：{{ new Date(script.create_time).toLocaleString() }}</p>
-            <p>收藏数：{{ script.stars || 0 }}</p>
-          </div>
-          <div class="details-link">
-            <!-- <router-link :to="`/scripts/${script.id}`">查看详情</router-link> -->
-            <el-link href="test.user.js">安装</el-link>
+            <div class="script-metadata">
+              <p>{{ new Date(script.create_time).toLocaleDateString() }}</p>
+              <p>收藏数：{{ script.stars || 0 }}</p>
+              <el-link href="test.user.js">安装</el-link>
+              <!-- <el-button type="primary" :href="test.user.js" target="_blank">安装</el-button> -->
+            </div>
           </div>
         </el-card>
-
         <!-- 分页控件 -->
         <el-pagination layout="prev, pager, next" :total="100" v-model:current-page="currentPage" prev-text="上一页"
           next-text="下一页"></el-pagination>
@@ -112,3 +102,20 @@ onMounted(fetchScripts);
 
   </el-main>
 </template>
+
+<style scoped>
+.script-card {
+  margin-bottom: 20px;
+  border: 1px solid #ebeef5;
+}
+
+.script-info {
+  padding: 15px;
+}
+
+.script-metadata {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+</style>
