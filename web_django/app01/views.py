@@ -1,13 +1,11 @@
-import sqlite3
-from app01.models import *
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+
+from app01.models import *
 
 
 @csrf_exempt
 def login(request):
-    print(request.method)
-    print(request.POST.get("username"))
     return JsonResponse({"code": 200})
 
 

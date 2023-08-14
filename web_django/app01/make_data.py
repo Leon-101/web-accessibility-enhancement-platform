@@ -1,20 +1,30 @@
-import hashlib
 from hashlib import md5
 import re
-import sqlite3
+import re
 from datetime import datetime
+from hashlib import md5
 
 from django.core import serializers
+from django.http import JsonResponse
 
 from app01.models import *
-from django.http import HttpResponse, JsonResponse
 
 
 def makedata(request):
     # 先清空
-    model_lsit = [Script]
-    for m in model_lsit:
+    model_list = [Script, Status, User, Role]
+    for m in model_list:
         m.objects.all().delete()
+    Role.objects.create(id=1, name="普通用户")
+    Role.objects.create(id=2, name="开发者")
+    Role.objects.create(id=3, name="管理员")
+    User.objects.create(id=1, username="Leon-101", password=md5("123456".encode()).hexdigest(), email="123456@qq.com",
+                        gender=1, role_id=2)
+    User.objects.create(id=2, username="shengrihui", password=md5("666666".encode()).hexdigest(),
+                        email="1120058252@qq.com", gender=1, role_id=2)
+    Status.objects.create(id=1, status="未审核")
+    Status.objects.create(id=2, status="审核未通过")
+    Status.objects.create(id=3, status="审核通过")
 
     # Script
     for i in range(16):
@@ -37,8 +47,6 @@ def makedata(request):
     """
 
         script_id = md5((script + str(i)).encode()).hexdigest()
-        print(script_id)
-        print(len(script_id))
         path = f"static/scripts/{script_id}.js"
         with open(path, "w", encoding="utf-8")as f:
             f.write(script)
@@ -60,7 +68,7 @@ def makedata(request):
             else:
                 info[k] = v
         Script.objects.create(id=script_id, title=info.get("name", ""), description=info.get("description", ""),
-                             author_id=1, status_id=1, create_time=date_string, script_path=path, )
+                              author_id=1, status_id=1, create_time=date_string, script_path=path, )
     script_data = Script.objects.all()
     data = serializers.serialize('python', script_data)
     return JsonResponse(data, safe=False)

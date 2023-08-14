@@ -117,6 +117,7 @@
 + 查询参数：
 
   - script_id (string, required): 脚本的 ID
+  - user_id (string, required): 用户的 ID
 
 + 返回：
 
@@ -131,7 +132,59 @@
       "author": "string",
       "stars": "number",
       "create_time": "datetime",
-      "script_url":"string"
+      "script_url":"string",
+      "is_star": "bool"
     }
+  }
+  ```
+
+#### 脚本上传
+
++ url:`/scripts/upload`
+
++ method:`POST`
+
++ 请求：
+
+  ```json
+  {
+    //用户信息
+    "script_file": "FILE"
+  }
+  ```
+
++ 返回：
+
+  + 状态码： 200
+
+  ```json
+  {
+  "msg": "string"
+  }
+  ```
+
+#### 脚本收藏
+
++ url:`/scripts/star`
+
++ method:`POST`
+
++ 请求：
+
+  ```json
+  {
+    "user_id": "string"//用户信息
+    "script_id": "string"
+  }
+  ```
+
++ 返回：
+
+  + 状态码： 200
+
+  ```json
+  {
+  "is_star": "bool",//是否收藏，根据这个在页面上显示“收藏”或是“取消收藏“
+  "msg": "string"
   }
   ```
