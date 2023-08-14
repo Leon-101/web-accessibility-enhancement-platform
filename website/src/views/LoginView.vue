@@ -2,43 +2,32 @@
 import { ref } from 'vue'
 import { RouterLink, useRouter } from 'vue-router';
 import { ElMessage } from 'element-plus';
-import { API_BASE_URL } from '../config'
+import { useUserStore } from '../store/user';
 
 const router = useRouter();
+const userStore = useUserStore();
 
 const loginForm = ref({
   username: '',
   password: '',
+  remember: true,
 });
 
-const remember = ref(true);
-
-const handleLogin = async (e) => {
-  try {
-    const response = await fetch(API_BASE_URL + '/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(loginForm.value),
-    });
-
-    const responseBody = response.json();
-    if (response.ok) {
-      if (remember) {
-        localStorage.setItem("access_token", responseBody.access_token);
-      }
-      sessionStorage.setItem("access_token", responseBody.access_token);
-      ElMessage("登陆成功！");
+const handleLogin = async e => {
+  userStore.login(loginForm.value)
+    .then(() => {
+      ElMessage.success("登陆成功！");
       router.push('/');
-    } else {
-      ElMessage("登陆失败，请检查您的用户名和密码。");
-    }
-  } catch (error) {
-    ElMessage("网络请求出错");
-    console.error('登录请求出错', error);
-  }
-};
+    })
+    .catch(({ response, request }) => {
+      if (response) {
+        ElMessage.warning("登陆失败，请检查您的用户名和密码。");
+      } else if (request) {
+        ElMessage.error("网络请求出错");
+      }
+    });
+}
+
 </script>
 
 <template>
@@ -56,7 +45,7 @@ const handleLogin = async (e) => {
           <el-form-item>
             <el-row>
               <el-col :span="12">
-                <el-checkbox v-model="remember">记住我</el-checkbox>
+                <el-checkbox v-model="loginForm.remember">记住我</el-checkbox>
               </el-col>
               <el-col :span="12">
                 <router-link to="/reset_password">忘记密码</router-link>

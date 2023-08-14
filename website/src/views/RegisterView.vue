@@ -1,7 +1,11 @@
 <script setup>
 import { ref } from 'vue'
 import { RouterLink, useRouter } from 'vue-router'
-import { API_BASE_URL } from '../config';
+import { useUserStore } from '../store/user';
+import { ElMessage } from 'element-plus';
+
+const router = useRouter();
+const userStore = useUserStore();
 
 const registerForm = ref({
   username: '',
@@ -11,7 +15,17 @@ const registerForm = ref({
 });
 
 const handleRegister = () => {
-  //todo
+  userStore.register(registerForm.value)
+    .then(() => {
+      ElMessage.success("注册成功！");
+    })
+    .catch(({ response, request }) => {
+      if (response) {
+        ElMessage.warning("注册失败，请检查您填写的内容。");
+      } else if (request) {
+        ElMessage.error("网络请求出错");
+      }
+    });
 };
 </script>
 
