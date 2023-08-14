@@ -75,13 +75,15 @@ onMounted(fetchScripts);
         <el-button type="primary" native-type="submit">查询</el-button>
       </el-form-item>
     </el-form>
-
-    <!-- 脚本列表 -->
+    <br>
     <el-row justify="center" align="middle">
       <el-col :span="18">
+        <!-- 脚本列表 -->
         <el-card class="script-card" v-for="script in displayedScripts" :key="script.id">
           <template #header>
-            <h3><router-link :to="`/script_details/${script.id}`">{{ script.title }}</router-link></h3>
+            <h3 class="script-title">
+              <router-link :to="`/script_details/${script.id}`">{{ script.title }}</router-link>
+            </h3>
           </template>
           <div class="script-info">
             <p>{{ script.description }}</p>
@@ -107,6 +109,11 @@ onMounted(fetchScripts);
 .script-card {
   margin-bottom: 20px;
   border: 1px solid #ebeef5;
+}
+
+.script-title {
+  font-weight: bold;
+  font-size: 1.5em;
 }
 
 .script-info {
