@@ -22,5 +22,21 @@ export default defineConfig({
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
-  }
+  },
+  // doc: https://cn.vitejs.dev/config/server-options.html
+  server: {
+    host: '0.0.0.0',
+    proxy: {
+      // 带选项写法：http://localhost:5173/api/bar -> http://localhost:8000/bar
+      '/api': {
+        target: 'http://localhost:8000',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ''),
+      },
+    },
+  },
+  // doc: https://cn.vitejs.dev/config/preview-options.html
+  preview: {
+    port: 5173,
+  },
 })
