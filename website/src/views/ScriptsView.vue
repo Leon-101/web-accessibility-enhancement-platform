@@ -61,21 +61,28 @@ onMounted(fetchScripts);
 
 <template>
   <el-main>
-    <!-- 列表筛选区 -->
-    <el-form :model="form" :inline="true" @submit.native.prevent="submitForm">
-      <el-form-item label="搜索">
-        <el-input v-model="form.keyword" placeholder="请输入脚本名称或目标网址"></el-input>
-      </el-form-item>
-      <el-form-item label="排序方式">
-        <el-select v-model="form.sortBy" placeholder="请选择排序方式">
-          <el-option v-for="opt in sortOptions" :label="opt.label" :value="opt.value"></el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" native-type="submit">查询</el-button>
-      </el-form-item>
-    </el-form>
-    <br>
+    <el-row>
+      <el-col :span="18">
+        <!-- 列表筛选区 -->
+        <el-form :model="form" :inline="true" @submit.native.prevent="submitForm">
+          <el-form-item label="搜索">
+            <el-input v-model="form.keyword" placeholder="请输入脚本名称或目标网址"></el-input>
+          </el-form-item>
+          <el-form-item label="排序方式">
+            <el-select v-model="form.sortBy" placeholder="请选择排序方式">
+              <el-option v-for="opt in sortOptions" :label="opt.label" :value="opt.value"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" native-type="submit">查询</el-button>
+          </el-form-item>
+        </el-form>
+      </el-col>
+      <el-col :span="6">
+        <el-button @click="$router.push('/script_upload')">上传脚本</el-button>
+      </el-col>
+    </el-row>
+
     <el-row justify="center" align="middle">
       <el-col :span="18">
         <!-- 脚本列表 -->
