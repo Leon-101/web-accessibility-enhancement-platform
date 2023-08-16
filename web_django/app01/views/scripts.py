@@ -1,12 +1,6 @@
 from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
 
 from app01.models import *
-
-
-@csrf_exempt
-def login(request):
-    return JsonResponse({"code": 200})
 
 
 def scripts_list(request):
@@ -27,7 +21,7 @@ def scripts_list(request):
                     "create_time": obj.create_time
                     }
         resp_data.append(obj_data)
-    resp = {"data": resp_data}
+    resp = {"data": resp_data, "total": len(resp_data)}
     return JsonResponse(resp)
 
 
@@ -43,3 +37,11 @@ def scripts_detail(request):
             }
 
     return JsonResponse(data)
+
+
+def upload(request):
+    pass
+
+
+def star(request):
+    pass

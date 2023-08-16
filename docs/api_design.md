@@ -36,13 +36,25 @@
 
 + response
 
-  + 状态码： 200
+  + 登录成功
+    状态码： 200
 
     ```json
     {
+        "code": 200,
         "access_token": "string"
     }
     ```
+  + 登录失败
+    状态码： 400
+
+    ```json
+    {
+        "code": 400,
+        "msg": "用户名或密码错误" or "用户名或密码为空"
+    }
+    ```
+    
 
 #### 注册
 
@@ -57,19 +69,29 @@
   	"username":"string",
   	"password":"string",
   	"email":"string",
-    "role_id": "number",
-  	"whatsup":"string",	//个性签名
-  	"gender":"string",	//性别
   }
   ```
 
 + response
 
-  + 状态码： 200
+  + 注册成功
+    状态码： 200
 
     ```json
     {
-        "user_id": "string"
+        "code": 200,
+        "username": "string",
+        "msg": "注册成功"
+    }
+    ```
+    
+  + 注册成功
+    状态码： 400
+
+    ```json
+    {
+        "code": 400,
+        "errors": "list"
     }
     ```
 
@@ -94,6 +116,7 @@
 
   ```json
   {
+  "total": "number",
   "data": [
     {
       "id": "string",
@@ -117,7 +140,6 @@
 + 查询参数：
 
   - script_id (string, required): 脚本的 ID
-  - user_id (string, required): 用户的 ID
 
 + 返回：
 
@@ -133,7 +155,6 @@
       "stars": "number",
       "create_time": "datetime",
       "script_url":"string",
-      "is_star": "bool"
     }
   }
   ```
@@ -148,7 +169,6 @@
 
   ```json
   {
-    //用户信息
     "script_file": "FILE"
   }
   ```

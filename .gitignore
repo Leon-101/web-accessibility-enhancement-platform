@@ -1,4 +1,4 @@
-web_django/static/scripts/*
+web_django/static/*
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
