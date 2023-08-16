@@ -2,7 +2,7 @@
 import { ref, reactive, watch, onMounted } from 'vue'
 import api from '../api'
 import { simulatedScriptData } from '../simulatedScriptData'
-import { ElMessage } from 'element-plus'
+import { ElMessage, ElText } from 'element-plus'
 
 const sortOptions = ref([
   { value: "create_time", label: "发布时间" },
@@ -62,7 +62,7 @@ onMounted(fetchScripts);
 <template>
   <el-main>
     <el-row>
-      <el-col :span="18">
+      <el-col :span="22">
         <!-- 列表筛选区 -->
         <el-form :model="form" :inline="true" @submit.native.prevent="submitForm">
           <el-form-item label="搜索">
@@ -78,7 +78,7 @@ onMounted(fetchScripts);
           </el-form-item>
         </el-form>
       </el-col>
-      <el-col :span="6">
+      <el-col :span="2">
         <el-button @click="$router.push('/script_upload')">上传脚本</el-button>
       </el-col>
     </el-row>
@@ -93,11 +93,11 @@ onMounted(fetchScripts);
             </h3>
           </template>
           <div class="script-info">
-            <p>{{ script.description }}</p>
-            <p>作者：{{ script.author }}</p>
+            <el-text tag="p" class="mx-1">{{ script.description }}</el-text>
             <div class="script-metadata">
-              <p>{{ new Date(script.create_time).toLocaleDateString() }}</p>
-              <p>收藏数：{{ script.stars || 0 }}</p>
+              <el-text tag="p">作者：{{ script.author }}</el-text>
+              <el-text tag="p">{{ new Date(script.create_time).toLocaleDateString() }}</el-text>
+              <el-text tag="p">收藏数：{{ script.stars || 0 }}</el-text>
               <el-link href="test.user.js">安装</el-link>
               <!-- <el-button type="primary" :href="test.user.js" target="_blank">安装</el-button> -->
             </div>
@@ -120,16 +120,16 @@ onMounted(fetchScripts);
 
 .script-title {
   font-weight: bold;
-  font-size: 1.5em;
+  font-size: 1.2em;
 }
 
-.script-info {
+/* .script-info {
   padding: 15px;
-}
+} */
 
 .script-metadata {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 10px;
 }
 </style>
