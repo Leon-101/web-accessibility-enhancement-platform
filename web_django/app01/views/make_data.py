@@ -1,3 +1,5 @@
+import os
+
 from app01.utils.encrypt import md5
 import re
 from datetime import datetime
@@ -13,6 +15,15 @@ def makedata(request):
     model_list = [Script, Status, User, Role]
     for m in model_list:
         m.objects.all().delete()
+    scripts_dir="static/scripts/"
+    for filename in os.listdir(scripts_dir):
+        file_path = os.path.join(scripts_dir, filename)
+        try:
+            if os.path.isfile(file_path):
+                os.unlink(file_path)  # 删除文件
+        except Exception as e:
+            continue
+
     Role.objects.create(id=1, name="普通用户")
     Role.objects.create(id=2, name="开发者")
     Role.objects.create(id=3, name="管理员")
@@ -44,7 +55,7 @@ def makedata(request):
     """
 
         script_id = md5(script + str(i))
-        path = f"static/scripts/{script_id}.js"
+        path = f"static/scripts/{script_id}.user.js"
         with open(path, "w", encoding="utf-8")as f:
             f.write(script)
 

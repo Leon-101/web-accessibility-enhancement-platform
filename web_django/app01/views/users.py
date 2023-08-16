@@ -43,11 +43,11 @@ def login(request):
     if form.is_valid():
         obj = User.objects.filter(**form.cleaned_data).first()
         if not obj:
-            return JsonResponse({"code": 400, "msg": "用户名或密码错误"})
+            return JsonResponse({ "msg": "用户名或密码错误"},status=400)
         request.session["info"] = {"username": form.cleaned_data["username"]}
-        return JsonResponse({"code": 200, "msg": "登录成功"})
+        return JsonResponse({ "msg": "登录成功"},status=200)
     else:
-        return JsonResponse({"code": 400, "msg": "用户名或密码为空"})
+        return JsonResponse({"msg": "用户名或密码为空"},status=400)
 
 
 @csrf_exempt
@@ -56,5 +56,5 @@ def register(request):
     if form.is_valid():
         form.save()
         request.session["info"] = {"username": form.cleaned_data.get("username")}
-        return JsonResponse({"code": 200, "username": form.cleaned_data.get("username"), "msg": "注册成功"})
-    return JsonResponse({"code": 400, "errors": form.errors})
+        return JsonResponse( { "username": form.cleaned_data.get("username"), "msg": "注册成功"},status=200)
+    return JsonResponse({ "errors": form.errors},status=400)
