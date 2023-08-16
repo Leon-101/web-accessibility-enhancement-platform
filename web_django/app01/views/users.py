@@ -1,3 +1,5 @@
+import json
+
 from django import forms
 from django.conf import settings
 from django.http import JsonResponse, HttpResponse
@@ -39,22 +41,22 @@ def login(request):
         # print(settings.STATIC_URL)
         # print(settings.STATICFILES_DIRS)
         return HttpResponse("o")
-    form = LoginForm(data=request.POST)
+    form = LoginForm(data=json.loads(request.body))
     if form.is_valid():
         obj = User.objects.filter(**form.cleaned_data).first()
         if not obj:
-            return JsonResponse({ "msg": "用户名或密码错误"},status=400)
+            return JsonResponse({"msg": "用户名或密码错误"}, status=400)
         request.session["info"] = {"username": form.cleaned_data["username"]}
-        return JsonResponse({ "msg": "登录成功"},status=200)
+        return JsonResponse({"msg": "登录成功"}, status=200)
     else:
-        return JsonResponse({"msg": "用户名或密码为空"},status=400)
+        return JsonResponse({"msg": "用户名或密码为空"}, status=400)
 
 
 @csrf_exempt
 def register(request):
-    form = RegisterModelForm(data=request.POST)
+    form = RegisterModelForm(data=json.loads(request.body))
     if form.is_valid():
         form.save()
         request.session["info"] = {"username": form.cleaned_data.get("username")}
-        return JsonResponse( { "username": form.cleaned_data.get("username"), "msg": "注册成功"},status=200)
-    return JsonResponse({ "errors": form.errors},status=400)
+        return JsonResponse({"username": form.cleaned_data.get("username"), "msg": "注册成功"}, status=200)
+    return JsonResponse({"errors": form.errors}, status=400)
