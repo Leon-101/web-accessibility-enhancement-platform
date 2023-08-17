@@ -14,8 +14,7 @@ const form = ref({
 });
 
 const submitForm = () => {
-  //todo
-  alert("功能开发中……");
+  fetchScripts();
 };
 
 const scriptData = ref([]);
@@ -31,17 +30,20 @@ watch(currentPage, () => {
 
 const fetchScripts = async () => {
   const queryParams = {
+    q: form.value.keyword,
     sort_by: form.value.sorBy,
     order: "desc",
     limit: 10,
-    offset: 1,
+    offset: (currentPage.value - 1) * pageSize.value + 1,
   };
-  // todo
-  api.get("/scripts")
+  api.get("/scripts", {
+    params: queryParams,
+  })
     .then(({ data }) => {
       scriptData.value = data.data;
-      totalScripts.value = scriptData.value.length;
+      totalScripts.value = data.total;
       displayedScripts.value = scriptData.value;
+      ElMessage.success("加载成功");
     }).catch(({ response, request }) => {
       if (response) {
         ElMessage.warning(`脚本列表加载失败，状态码：${response.status}`);
@@ -112,7 +114,7 @@ onMounted(fetchScripts);
           </div>
         </el-card>
         <!-- 分页控件 -->
-        <el-pagination layout="prev, pager, next" :total="100" v-model:current-page="currentPage" prev-text="上一页"
+        <el-pagination layout="prev, pager, next" :total="totalScripts" v-model:current-page="currentPage" prev-text="上一页"
           next-text="下一页"></el-pagination>
       </el-col>
     </el-row>
