@@ -1,4 +1,0 @@
-
-def fileInfo():
-
-    return

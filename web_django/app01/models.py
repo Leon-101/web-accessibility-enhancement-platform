@@ -18,15 +18,15 @@ class Role(models.Model):
 
 class Script(models.Model):
     id = models.CharField(verbose_name="脚本ID", max_length=32, primary_key=True)
-    title = models.CharField(verbose_name="标题", max_length=32)
+    name = models.CharField(verbose_name="标题", max_length=32)
     description = models.CharField(verbose_name="描述", max_length=100, null=True, blank=True)
     author = models.ForeignKey(verbose_name="作者", to='User', to_field="username", null=True, blank=True,
                                on_delete=models.SET_NULL)
     status = models.ForeignKey(verbose_name="状态", to='Status', to_field="id", null=True, blank=True,
-                               on_delete=models.SET_NULL)
+                               on_delete=models.SET_NULL,default=1)
     create_time = models.DateTimeField(verbose_name="创建时间")
-    download_count = models.IntegerField(verbose_name="下载次数", default=0)
-    stars = models.IntegerField(verbose_name="收藏/星标数", default=0)
+    download_count = models.IntegerField(verbose_name="下载次数", blank=True, default=0)
+    stars = models.IntegerField(verbose_name="收藏/星标数", blank=True, default=0)
     script_path = models.CharField(verbose_name="脚本文件路径", max_length=200)
     readme = models.TextField(verbose_name="脚本的说明文档", null=True, blank=True)
 
@@ -75,7 +75,7 @@ class Website(models.Model):
     记录已经有哪些网页的脚本了，以URL匹配的形式存
     """
     url = models.URLField(verbose_name="匹配的网址")
-    description = models.CharField(verbose_name="描述", max_length=100)
+    # description = models.CharField(verbose_name="描述", max_length=100,null=True,blank=True)
 
 
 class ScriptWebsite(models.Model):

@@ -1,5 +1,6 @@
-from django.conf import settings
 import hashlib
+
+from django.conf import settings
 
 
 def md5(data_string):

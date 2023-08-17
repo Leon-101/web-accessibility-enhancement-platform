@@ -1,21 +1,19 @@
 import os
 
-from app01.utils.encrypt import md5
-import re
-from datetime import datetime
-
 from django.core import serializers
 from django.http import JsonResponse
 
 from app01.models import *
-from app01.utils.read_file import fileInfo
+from app01.utils.encrypt import md5
+from app01.utils.scriptContent import scriptInfo
+
 
 def makedata(request):
     # 先清空
     model_list = [Script, Status, User, Role]
     for m in model_list:
         m.objects.all().delete()
-    scripts_dir="static/scripts"
+    scripts_dir = "static/scripts"
     for filename in os.listdir(scripts_dir):
         file_path = os.path.join(scripts_dir, filename)
         try:
@@ -53,31 +51,11 @@ def makedata(request):
         setTimeout(() => alert("{t}网站优化已完成~"), 3000);
     }})();
     """
-        # info=fileInfo(script,scripts_dir)
-        script_id = md5(script + str(i))
-        path = f"{scripts_dir}/{script_id}.user.js"
-        with open(path, "w", encoding="utf-8")as f:
-            f.write(script)
-
-        current_datetime = datetime.now()
-        date_string = current_datetime.strftime('%Y-%m-%d %H:%M:%S')
-
-        info = dict()
-        pattern = r"@(.*?)\n"
-        matches = re.findall(pattern, script)
-        for match in matches:
-            k, v = match.split()
-            if k in info:
-                # 如果info里已经也了k，
-                # 而且它还不是列表的形式，就先将它变成列表
-                if isinstance(info[k], str):
-                    info[k] = [info[k]]
-                info[k].append(v)
-            else:
-                info[k] = v
-        Script.objects.create(id=script_id, title=info.get("name", ""), description=info.get("description", ""),
-                              author_id=info.get("author", ""), status_id=1, create_time=date_string,
-                              script_path=path, )
+        info = scriptInfo(script)
+        Script.objects.create(id=info.get("script_id"), title=info.get("name", ""),
+                              description=info.get("description", ""),
+                              author_id=info.get("author", ""), status_id=1, create_time=info.get("create_time"),
+                              script_path=info.get("script_path"))
     script_data = Script.objects.all()
     data = serializers.serialize('python', script_data)
     return JsonResponse(data, safe=False)
