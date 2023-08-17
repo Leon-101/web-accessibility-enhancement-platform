@@ -21,7 +21,7 @@ const handleLogin = async e => {
     })
     .catch(({ response, request }) => {
       if (response) {
-        ElMessage.warning("登陆失败，请检查您的用户名和密码。");
+        ElMessage.error(response.data.msg ?? "登录失败！");
       } else if (request) {
         ElMessage.error("网络请求出错");
       }

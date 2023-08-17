@@ -54,6 +54,14 @@ const fetchScripts = async () => {
     });
 }
 
+const installScript = (scriptID) => {
+  api.get(`/scripts/detail?script_id=${scriptID}`)
+    .then(({ data }) => {
+      window.location.href = "api/" + data.script_url;
+    })
+    .catch(err => ElMessage.error("安装失败"));
+}
+
 // 初始化时获取脚本列表数据
 onMounted(fetchScripts);
 
@@ -98,8 +106,8 @@ onMounted(fetchScripts);
               <el-text tag="p">作者：{{ script.author }}</el-text>
               <el-text tag="p">{{ new Date(script.create_time).toLocaleDateString() }}</el-text>
               <el-text tag="p">收藏数：{{ script.stars || 0 }}</el-text>
-              <el-link href="test.user.js">安装</el-link>
-              <!-- <el-button type="primary" :href="test.user.js" target="_blank">安装</el-button> -->
+              <!-- <el-link href="test.user.js">安装</el-link> -->
+              <el-button type="primary" @click="installScript(script.id)">安装</el-button>
             </div>
           </div>
         </el-card>

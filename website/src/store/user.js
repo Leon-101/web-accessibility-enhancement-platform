@@ -16,21 +16,23 @@ const actions = {
 		return api.post("/users/login", {
 			username,
 			password,
-		}).then(({ data }) => {
+		}).then(({ data, headers }) => {
+			// const cookies = headers['set-cookie'];
 			state.user = {
 				username,
-				token: data.access_token,
+				// token: data.access_token,
 			};
 			if (remember) {
-				localStorage.setItem("user", store.user);
+				localStorage.setItem("user", JSON.stringify(state.user));
 			}
-			sessionStorage.setItem("user", store.user);
+			sessionStorage.setItem("user", JSON.stringify(state.user));
 		});
 	},
 	logout: () => {
 		localStorage.removeItem("user");
 		sessionStorage.removeItem("user");
 		state.user = null;
+		return Promise.resolve();
 	},
 	register: (registerInfo) => {
 		const { username, email, password } = registerInfo;
