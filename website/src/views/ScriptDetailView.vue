@@ -36,7 +36,7 @@ onMounted(fetchScriptDetail);
         <el-card class="script-card">
           <template #header>
             <h2 class="script-title">
-              {{ script.title }}
+              {{ script.name }}
             </h2>
           </template>
           <div class="script-info">

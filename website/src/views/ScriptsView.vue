@@ -98,8 +98,8 @@ onMounted(fetchScripts);
         <!-- 脚本列表 -->
         <el-card class="script-card" v-for="script in displayedScripts" :key="script.id">
           <template #header>
-            <h3 class="script-title">
-              <router-link :to="`/script_details/${script.id}`">{{ script.title }}</router-link>
+            <h3 class="script-name">
+              <router-link :to="`/script_details/${script.id}`">{{ script.name }}</router-link>
             </h3>
           </template>
           <div class="script-info">
