@@ -17,7 +17,25 @@ const registerForm = ref({
 const handleRegister = () => {
   userStore.register(registerForm.value)
     .then(() => {
-      ElMessage.success("注册成功！");
+      const { username, password } = registerForm.value;
+      ElMessageBox({
+        boxType: "alert",
+        title: "注册成功",
+        message: `您的用户名是：${username}`,
+        confirmButtonText: "立即登录",
+        type: "success",
+      })
+        .then(() => {
+          return userStore.login({
+            username,
+            password,
+            remember: true,
+          });
+        })
+        .then(() => {
+          ElMessage.success("登录成功！");
+          router.push("/scripts");
+        });
     })
     .catch(({ response, request }) => {
       if (response) {
@@ -31,7 +49,7 @@ const handleRegister = () => {
           ElMessage("注册失败，请检查您的输入。");
         }
       }
-    });
+    })
 };
 </script>
 
