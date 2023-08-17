@@ -18,12 +18,28 @@ Including another URLconf
 from django.urls import path
 # from django.urls import re_path
 from rest_framework_swagger.views import get_swagger_view
-from app01.views import *
+
+from app01.views.make_data import makedata
+from app01.views import users,scripts
+
 schema_view = get_swagger_view(title='Pastebin API')
 
 urlpatterns = [
     # path("admin/", admin.site.urls),
     # re_path(r'^$', schema_view),
-    path("user/login",login)
-]
+    # path(r'oauth/', include('oauth2_provider.urls', namespace='oauth2_provider')),
 
+    # re_path(r'^static/(?P<path>.*)$', serve, {'document_root': settings.STATIC_URL}, name='static'),
+
+    path("users/login", users.login),
+    path("users/register", users.register),
+
+    path("scripts", scripts.scripts_list),
+    path("scripts/detail", scripts.scripts_detail),
+    path("scripts/upload", scripts.upload),
+    path("scripts/star", scripts.star),
+
+    path("makedata", makedata),
+
+
+]

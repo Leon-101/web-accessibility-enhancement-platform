@@ -3,6 +3,7 @@
 ## 脚本的安装
 
 安装功能由网站端、扩展端、服务器端协同完成，流程如下：
+
 1. 用户在平台网站找到需要的脚本并点击安装。
 2. 网站页面向扩展接口发送一条消息，消息内容包含预安装的脚本ID 和 accessToken。 （消息发送可通过postMessage API 或者自定义的 DOM event）
 3. 扩展接口收到消息后，向用户弹窗确认是否安装。
@@ -28,7 +29,8 @@
 - 注入的脚本将在一个独立的上下文中运行，与目标页面的 JS 环境隔离。
 - 脚本和目标页面共享同一个 DOM，以便于脚本修改目标页面的元素的无障碍属性。
 - 同一页面的所有脚本都在同一个上下文中运行，若无必要应避免修改全局的对象，以免影响其他脚本。
-- 详细内容可参考 [content_script_environment](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Content_scripts#content_script_environment)。
+-
+详细内容可参考 [content_script_environment](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Content_scripts#content_script_environment)。
 
 ## 脚本的管理
 
@@ -36,12 +38,12 @@
 - 在 option 页面提供已安装脚本的管理功能，包括启用/禁用，查看/编辑代码，删除脚本、手动/自动更新脚本。
 - TODO: 详细设计待完善
 
-
 ## 脚本的格式
 
 无障碍优化脚本由普通的 JS 语言编写，在脚本头部以固定的注释格式定义脚本的元数据。
 
-元数据部分包含多个字段，包括 name, description, match 等，具体描述可参考 [Tampermonkey 的文档](https://www.tampermonkey.net/documentation.php?locale=en)。
+元数据部分包含多个字段，包括 name, description, match
+等，具体描述可参考 [Tampermonkey 的文档](https://www.tampermonkey.net/documentation.php?locale=en)。
 
 ## 其他说明
 
@@ -51,7 +53,8 @@
 
 若基于 V3 开发此扩展，我们可能需要将脚本的注入执行功能放在页面上下文中实现，这将无法利用扩展原生提供的隔离环境和相关的 API，我们需要自己解决 sandbox 机制以及页面和扩展间的数据交换等问题。
 
-使用 V2 也存在一些问题：从2022年开始，Chrome 和Edge 等浏览器的扩展商店已经不能上传 V2 版本的新扩展，各浏览器也将在未来的版本中停止支持 V2，详见 [Chrome Extensions Manifest V2 support timeline - Chrome Developers](https://developer.chrome.com/docs/extensions/migrating/mv2-sunset/)。
+使用 V2 也存在一些问题：从2022年开始，Chrome 和Edge 等浏览器的扩展商店已经不能上传 V2 版本的新扩展，各浏览器也将在未来的版本中停止支持
+V2，详见 [Chrome Extensions Manifest V2 support timeline - Chrome Developers](https://developer.chrome.com/docs/extensions/migrating/mv2-sunset/)。
 
 综合考虑，我们可暂时使用 V2 版本，后续再逐渐迁移到 V3。
 
