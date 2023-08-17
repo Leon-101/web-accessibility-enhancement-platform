@@ -52,7 +52,7 @@ def makedata(request):
     }})();
     """
         info = scriptInfo(script)
-        Script.objects.create(id=info.get("script_id"), title=info.get("name", ""),
+        Script.objects.create(id=info.get("id"), name=info.get("name", ""),
                               description=info.get("description", ""),
                               author_id=info.get("author", ""), status_id=1, create_time=info.get("create_time"),
                               script_path=info.get("script_path"))
