@@ -23,9 +23,13 @@ scriptCode.value = `// ==UserScript==
 async function submitScript(e) {
 	const blob = new Blob([scriptCode.value], { type: 'text/plain' });
 	const formData = new FormData();
-	formData.append('script_file', blob, 'script.txt'); // 'script_file' 是后端接受文件的字段名
+	formData.append('script_file', blob, 'script.js'); // 'script_file' 是后端接受文件的字段名
 
-	api.post('/scripts/upload', formData)
+	api.post('/scripts/upload', formData, {
+		headers: {
+			'Content-Type': 'multipart/form-data',
+		},
+	})
 		.then(() => {
 			ElMessage.success("上传成功！");
 		})
