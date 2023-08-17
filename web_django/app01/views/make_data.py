@@ -8,14 +8,14 @@ from django.core import serializers
 from django.http import JsonResponse
 
 from app01.models import *
-
+from app01.utils.read_file import fileInfo
 
 def makedata(request):
     # 先清空
     model_list = [Script, Status, User, Role]
     for m in model_list:
         m.objects.all().delete()
-    scripts_dir="static/scripts/"
+    scripts_dir="static/scripts"
     for filename in os.listdir(scripts_dir):
         file_path = os.path.join(scripts_dir, filename)
         try:
@@ -53,9 +53,9 @@ def makedata(request):
         setTimeout(() => alert("{t}网站优化已完成~"), 3000);
     }})();
     """
-
+        # info=fileInfo(script,scripts_dir)
         script_id = md5(script + str(i))
-        path = f"static/scripts/{script_id}.user.js"
+        path = f"{scripts_dir}/{script_id}.user.js"
         with open(path, "w", encoding="utf-8")as f:
             f.write(script)
 

@@ -1,4 +1,7 @@
-from django.http import JsonResponse
+import json
+
+from django.http import JsonResponse, HttpResponse
+from django.views.decorators.csrf import csrf_exempt
 
 from app01.models import *
 
@@ -38,9 +41,12 @@ def scripts_detail(request):
 
     return JsonResponse(data)
 
-
+@csrf_exempt
 def upload(request):
-    pass
+    print("update")
+    print(request.FILES)
+    print(json.loads(request.body))
+    return HttpResponse("oo")
 
 
 def star(request):
