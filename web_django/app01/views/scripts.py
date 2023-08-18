@@ -35,7 +35,7 @@ def scripts_list(request):
     resp_data = []
     for obj in queryset:
         obj_data = {"id": obj.id,
-                    "name": obj.title,
+                    "name": obj.name,
                     "description": obj.description,
                     "author": obj.author.username,
                     "stars": obj.stars,
@@ -50,7 +50,7 @@ def scripts_detail(request):
     script_id = request.GET.get("script_id")
     row = Script.objects.filter(id=script_id).first()
     data = {"id": row.id,
-            "name": row.title,
+            "name": row.name,
             "description": row.description,
             "stars": row.stars,
             "create_time": row.create_time,
