@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import api from '../api';
-import { ElMessage } from 'element-plus';
+import { ElMessage, ElSpace } from 'element-plus';
 import { useRouter } from "vue-router"
 import { useUserStore } from '../store/user';
 
@@ -34,10 +34,14 @@ async function submit(e) {
 <template>
 	<el-main>
 		<div class="script-upload">
-			<h2>发布需求</h2>
-			<el-input placeholder="在这里填写需求标题" v-model="needDesc"></el-input>
-			<el-input type="textarea" :rows="10" placeholder="在这里填写需求描述" v-model="needDesc"></el-input>
-			<el-button type="primary" @click="submit">发布</el-button>
+			<el-space size="default" fill>
+				<h2>发布需求</h2>
+				<el-input placeholder="在这里填写需求标题" v-model="needName"></el-input>
+				<el-input type="textarea" :rows="10" placeholder="在这里填写需求描述" v-model="needDesc"></el-input>
+				<div>
+					<el-button type="primary" @click="submit">发布</el-button>
+				</div>
+			</el-space>
 		</div>
 	</el-main>
 </template>
