@@ -20,7 +20,7 @@ from django.urls import path
 from rest_framework_swagger.views import get_swagger_view
 
 from app01.views.make_data import makedata
-from app01.views import users,scripts
+from app01.views import users,scripts,needs
 
 schema_view = get_swagger_view(title='Pastebin API')
 
@@ -33,11 +33,15 @@ urlpatterns = [
 
     path("users/login", users.login),
     path("users/register", users.register),
+    path("users/logout", users.logout),
 
     path("scripts", scripts.scripts_list),
     path("scripts/detail", scripts.scripts_detail),
     path("scripts/upload", scripts.upload),
     path("scripts/star", scripts.star),
+
+    path("needs", needs.needs_list),
+    path("needs/upload", needs.upload),
 
     path("makedata", makedata),
 

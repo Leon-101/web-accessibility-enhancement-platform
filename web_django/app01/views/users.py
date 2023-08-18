@@ -59,3 +59,9 @@ def register(request):
         request.session["info"] = {"username": form.cleaned_data.get("username")}
         return JsonResponse({"username": form.cleaned_data.get("username"), "msg": "注册成功"}, status=200)
     return JsonResponse({"errors": form.errors}, status=400)
+
+
+def logout(request):
+    """ 注销 """
+    request.session.clear()
+    return JsonResponse({"msg":"注销成功"},status=200)

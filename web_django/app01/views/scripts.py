@@ -29,7 +29,7 @@ def scripts_list(request):
     data_dict = {}
     q = request.GET.get("q", "")
     if q:
-        data_dict["title__contains"] = q
+        data_dict["name__contains"] = q
 
     queryset = Script.objects.filter(**data_dict).order_by(order_by)[offset - 1:offset - 1 + limit]
     resp_data = []

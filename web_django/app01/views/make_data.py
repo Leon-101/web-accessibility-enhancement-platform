@@ -5,12 +5,13 @@ from django.http import JsonResponse
 
 from app01.models import *
 from app01.utils.encrypt import md5
+from app01.utils.randomTime import random_date
 from app01.utils.scriptContent import scriptInfo
 
 
 def makedata(request):
     # 先清空
-    model_list = [Script, Status, User, Role]
+    model_list = [Script, Status, User, Role, Need]
     for m in model_list:
         m.objects.all().delete()
     scripts_dir = "static/scripts"
@@ -33,14 +34,14 @@ def makedata(request):
 
     # Script
     for i in range(16):
-        t = chr(65 + i) * 3
-        a = "Leon-101" if i % 2 else "shengrihui"
+        t = chr(65 + i) * 3  # AAA,BBB
+        author = "Leon-101" if i % 2 else "shengrihui"
         script = f"""// ==UserScript==
     // @name         {t}网站无障碍优化脚本
     // @namespace    http://a11y.org
     // @version      0.1
     // @description  优化{t}网站的无障碍问题
-    // @author       {a}
+    // @author       {author}
     // @match        https://www.baidu.com/*
     // @grant        none
     // ==/UserScript==
@@ -52,10 +53,20 @@ def makedata(request):
     }})();
     """
         info = scriptInfo(script)
-        Script.objects.create(id=info.get("id"), name=info.get("name", ""),
+        Script.objects.create(id=info.get("id"),
+                              name=info.get("name", ""),
                               description=info.get("description", ""),
-                              author_id=info.get("author", ""), status_id=1, create_time=info.get("create_time"),
+                              author_id=info.get("author", ""),
+                              status_id=1,
+                              create_time=random_date().strftime('%Y-%m-%d %H:%M:%S'),
                               script_path=info.get("script_path"))
-    script_data = Script.objects.all()
-    data = serializers.serialize('python', script_data)
-    return JsonResponse(data, safe=False)
+        Need.objects.create(name=f"{t}网站的{t[:2]}问题",
+                              description=f"{t}网站的{t}页面存在无障碍问题，无法通过读屏软件使用{t[:2]}功能",
+                              author_id=author,
+                              create_time=random_date().strftime('%Y-%m-%d %H:%M:%S'),
+                              )
+    script_data = serializers.serialize('python', Script.objects.all())
+    need_data = serializers.serialize('python', Need.objects.all())
+
+    return JsonResponse({"script_data": script_data,
+                         "need_data": need_data})

@@ -51,9 +51,13 @@ class Comment(models.Model):
     pass
 
 
-class Task(models.Model):
+class Need(models.Model):
     """任务 / 需求表"""
-    pass
+    name = models.CharField(verbose_name="标题", max_length=32)
+    description = models.CharField(verbose_name="描述", max_length=100)
+    author = models.ForeignKey(verbose_name="作者", to='User', to_field="username", null=True, blank=True,
+                               on_delete=models.SET_NULL)
+    create_time = models.DateTimeField(verbose_name="创建时间")
 
 
 class Operation(models.Model):

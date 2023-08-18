@@ -79,7 +79,6 @@
 
     ```json
     {
-        "code": 200,
         "username": "string",
         "msg": "注册成功"
     }
@@ -90,8 +89,31 @@
 
     ```json
     {
-        "code": 400,
         "errors": "list"
+    }
+    ```
+
+#### 注销
+
++ url:`/users/logout`
+
++ method:`GET`
+
++ 请求：
+
+  ```json
+  {
+  }
+  ```
+
++ response
+
+  + 登录成功
+    状态码： 200
+
+    ```json
+    {
+        "msg": "注销成功"
     }
     ```
 
@@ -207,4 +229,59 @@
   "is_star": "bool",//是否收藏，根据这个在页面上显示“收藏”或是“取消收藏“
   "msg": "string"
   }
+  ``
+  
+### 需求
+
+#### 需求列表
+
++ url:`/needs`
+
++ method:`GET`
+
++ 返回：
+
+  + 状态码： 200
+
+  ```json
+  {
+  "total": "number",
+  "data": [
+   {
+    "id": "number",
+   "name": "string",
+   "description": "string",
+   "author": "string",
+   "create_time": "datetime"
+   },
+   ...
+  ]
+  }
   ```
+
+#### 需求发布
+
++ url:`/needs/upload`
+
++ method:`POST`
+
++ 请求：
+
+  ```json
+  {
+    "name": "string",
+    "description": "string",
+    "author": "string",
+  }
+  ```
+
++ 返回：
+
+  + 状态码： 200
+
+  ```json
+  {
+  "msg": "string"
+  }
+  ```
+`
