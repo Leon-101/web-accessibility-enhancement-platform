@@ -2,6 +2,9 @@
 import { ref } from 'vue';
 import api from '../api';
 import { ElMessage } from 'element-plus';
+import { useRouter } from "vue-router"
+
+const router = useRouter();
 
 const scriptCode = ref('');
 
@@ -32,8 +35,9 @@ async function submitScript(e) {
 	})
 		.then(() => {
 			ElMessage.success("上传成功！");
+			router.push("/scripts");
 		})
-		.catch(({ response, request }) => {
+		.catch(({ response }) => {
 			if (response) {
 				ElMessage.error("上传失败，请检查您的代码格式。");
 			}

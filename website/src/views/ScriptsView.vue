@@ -1,7 +1,7 @@
 <script setup>
 import { ref, reactive, watch, onMounted } from 'vue'
 import api from '../api'
-import { simulatedScriptData } from '../simulatedScriptData'
+import { simulatedScriptData } from '../test_data/scripts'
 import { ElMessage, ElText } from 'element-plus'
 
 const sortOptions = ref([

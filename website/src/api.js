@@ -1,5 +1,8 @@
 import axios from 'axios'
 import { ElMessage } from 'element-plus';
+import testDataOfNeeds from "./test_data/needs"
+
+const useTestData = true; // 请求错误时是否返回测试数据
 
 const api = axios.create({
 	baseURL: '/api',
@@ -17,6 +20,14 @@ api.interceptors.response.use(function (response) {
 	console.error(error);
 	const { response, request } = error;
 	if (response) {
+		//返回模拟数据
+		if (useTestData && response.config.url === "/needs") {
+			return {
+				status: 200,
+				data: testDataOfNeeds,
+			};
+		}
+
 		if (response.status >= 500) {
 			ElMessage.error(`服务器错误：${response.status}`);
 		}

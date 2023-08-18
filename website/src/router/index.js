@@ -54,6 +54,16 @@ const router = createRouter({
       name: 'script_upload',
       component: () => import('../views/ScriptUploadView.vue')
     },
+    {
+      path: '/need_details/:script_id',
+      name: 'need_detail',
+      component: () => import('../views/NeedDetailView.vue')
+    },
+    {
+      path: '/need_upload',
+      name: 'need_upload',
+      component: () => import('../views/NeedUploadView.vue')
+    },
   ]
 })
 
