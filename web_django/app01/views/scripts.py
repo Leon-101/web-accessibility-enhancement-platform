@@ -1,7 +1,7 @@
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django import forms
-from app01.models import *
+from app01.models import Script
 from app01.utils.scriptContent import scriptInfo
 
 
@@ -42,7 +42,7 @@ def scripts_list(request):
                     "create_time": obj.create_time
                     }
         resp_data.append(obj_data)
-    resp = {"data": resp_data, "total": len(resp_data)}
+    resp = {"data": resp_data, "total":  Script.objects.count()}
     return JsonResponse(resp)
 
 

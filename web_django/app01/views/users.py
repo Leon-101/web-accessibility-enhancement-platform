@@ -4,7 +4,7 @@ from django import forms
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 
-from app01.models import *
+from app01.models import User
 from app01.utils.encrypt import md5
 
 

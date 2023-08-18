@@ -38,7 +38,7 @@ def needs_list(request):
                     "create_time": obj.create_time
                     }
         resp_data.append(obj_data)
-    resp = {"data": resp_data, "total": len(resp_data)}
+    resp = {"data": resp_data, "total":  Need.objects.count()}
     return JsonResponse(resp)
 
 
