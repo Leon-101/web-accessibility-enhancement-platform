@@ -82,6 +82,7 @@ def upload(request):
         file = request.FILES['script_file']
         content = file.read().decode("utf-8")
         info = scriptInfo(content)
+        info["author"] = request.session.get("info").get("username")
         form = ScriptModelForm(data=info)
         if form.is_valid():
             form.save()

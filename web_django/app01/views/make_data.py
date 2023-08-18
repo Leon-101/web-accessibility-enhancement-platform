@@ -61,10 +61,10 @@ def makedata(request):
                               create_time=random_date().strftime('%Y-%m-%d %H:%M:%S'),
                               script_path=info.get("script_path"))
         Need.objects.create(name=f"{t}网站的{t[:2]}问题",
-                              description=f"{t}网站的{t}页面存在无障碍问题，无法通过读屏软件使用{t[:2]}功能",
-                              author_id=author,
-                              create_time=random_date().strftime('%Y-%m-%d %H:%M:%S'),
-                              )
+                            description=f"{t}网站的{t}页面存在无障碍问题，无法通过读屏软件使用{t[:2]}功能",
+                            author_id=author,
+                            create_time=random_date().strftime('%Y-%m-%d %H:%M:%S'),
+                            )
     script_data = serializers.serialize('python', Script.objects.all())
     need_data = serializers.serialize('python', Need.objects.all())
 

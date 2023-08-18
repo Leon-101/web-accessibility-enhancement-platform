@@ -1,3 +1,4 @@
+import datetime
 import json
 
 from django.http import JsonResponse, HttpResponse
@@ -59,8 +60,9 @@ def needs_list(request):
 @csrf_exempt
 def upload(request):
     if request.method == 'POST':
-        print(json.loads(request.body)+{"create_time":"6666"})
-        form = NeedModelForm(data=json.loads(request.body))
+        request_body = json.loads(request.body)
+        c_time = {"create_time": datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
+        form = NeedModelForm(data={**request_body, **c_time})
         if form.is_valid():
             form.save()
             return JsonResponse({"msg": "上传成功"}, status=200)
