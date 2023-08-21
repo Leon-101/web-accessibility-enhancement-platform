@@ -34,7 +34,7 @@ const handleRegister = () => {
         })
         .then(() => {
           ElMessage.success("登录成功！");
-          router.push("/scripts");
+          router.push("/needs");
         });
     })
     .catch(({ response, request }) => {

@@ -17,7 +17,7 @@ const handleLogin = async e => {
   userStore.login(loginForm.value)
     .then(() => {
       ElMessage.success("登陆成功！");
-      router.push('/');
+      router.push('/needs');
     })
     .catch(({ response, request }) => {
       if (response) {
