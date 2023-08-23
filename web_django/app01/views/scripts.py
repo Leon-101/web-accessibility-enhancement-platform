@@ -2,7 +2,7 @@ from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django import forms
 from django.db.models import Q
-from app01.models import Script
+from app01.models import Script, Website, ScriptWebsite
 from app01.utils.scriptContent import scriptInfo
 
 
