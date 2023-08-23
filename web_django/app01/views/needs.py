@@ -1,6 +1,7 @@
 import datetime
 import json
 
+from django.db.models import Q
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django import forms
@@ -25,12 +26,14 @@ def needs_list(request):
     offset = int(request.GET.get("offset", "1"))
     data_dict = {}
     q = request.GET.get("q", "")
-    if q:
-        data_dict["name__contains"] = q
 
-    queryset = Need.objects.filter(**data_dict).order_by(order_by)[offset - 1:offset - 1 + limit]
+    queryset = Need.objects.filter(
+        Q(name__icontains=q) |
+        Q(description__icontains=q) |
+        Q(author__username__icontains=q)
+    ).order_by(order_by)
     resp_data = []
-    for obj in queryset:
+    for obj in queryset[offset - 1:offset - 1 + limit]:
         obj_data = {"id": obj.id,
                     "name": obj.name,
                     "description": obj.description,
@@ -38,7 +41,7 @@ def needs_list(request):
                     "create_time": obj.create_time
                     }
         resp_data.append(obj_data)
-    resp = {"data": resp_data, "total":  Need.objects.count()}
+    resp = {"data": resp_data, "total":  len(queryset)}
     return JsonResponse(resp)
 
 
