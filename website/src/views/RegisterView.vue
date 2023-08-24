@@ -1,10 +1,11 @@
 <script setup>
 import { ref } from 'vue'
-import { RouterLink, useRouter } from 'vue-router'
+import { RouterLink, useRoute, useRouter } from 'vue-router'
 import { useUserStore } from '../store/user';
 import { ElMessage, ElMessageBox } from 'element-plus';
 
 const router = useRouter();
+const route = useRoute();
 const userStore = useUserStore();
 
 const registerForm = ref({
@@ -34,7 +35,7 @@ const handleRegister = () => {
         })
         .then(() => {
           ElMessage.success("登录成功！");
-          router.push("/needs");
+          router.push(route.query.redirect || "/");
         });
     })
     .catch(({ response, request }) => {
