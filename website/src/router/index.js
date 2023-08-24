@@ -1,5 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import { useUserStore } from '../store/user'
+
+const userStore = useUserStore();
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -22,7 +25,8 @@ const router = createRouter({
     {
       path: '/user_center',
       name: 'user_center',
-      component: () => import('../views/UserCenterView.vue')
+      component: () => import('../views/UserCenterView.vue'),
+      meta: { requiresAuth: true },
     },
     {
       path: '/about',
@@ -52,7 +56,8 @@ const router = createRouter({
     {
       path: '/script_upload',
       name: 'script_upload',
-      component: () => import('../views/ScriptUploadView.vue')
+      component: () => import('../views/ScriptUploadView.vue'),
+      meta: { requiresAuth: true },
     },
     {
       path: '/need_details/:script_id',
@@ -62,9 +67,26 @@ const router = createRouter({
     {
       path: '/need_upload',
       name: 'need_upload',
-      component: () => import('../views/NeedUploadView.vue')
+      component: () => import('../views/NeedUploadView.vue'),
+      meta: { requiresAuth: true },
     },
   ]
+})
+
+
+// 守卫需要登录的路由
+router.beforeEach((to, from) => {
+  if (
+    to.meta.requiresAuth &&
+    !userStore.loggedIn.value &&
+    to.name != "login"
+  ) {
+    // 重定向到登录页面
+    return {
+      path: '/login',
+      query: { redirect: to.fullPath }, // 保存目标位置，用于登录后的跳转
+    }
+  }
 })
 
 export default router
