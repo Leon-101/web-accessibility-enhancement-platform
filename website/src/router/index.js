@@ -100,7 +100,15 @@ const router = createRouter({
         requiresAuth: true,
       },
     },
-  ]
+  ],
+  //页面切换后滚动到顶部，延迟500ms执行
+  scrollBehavior(to, from, savedPosition) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve({ left: 0, top: 0 })
+      }, 500)
+    })
+  },
 })
 
 
