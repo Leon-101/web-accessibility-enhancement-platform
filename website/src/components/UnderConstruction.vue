@@ -5,7 +5,7 @@
 	</div>
 </template>
 
-<style>
+<style scoped>
 .under-construction {
 	display: flex;
 	flex-direction: column;

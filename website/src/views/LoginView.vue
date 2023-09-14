@@ -1,10 +1,11 @@
 <script setup>
 import { ref } from 'vue'
-import { RouterLink, useRouter } from 'vue-router';
+import { RouterLink, useRouter, useRoute } from 'vue-router';
 import { ElMessage } from 'element-plus';
 import { useUserStore } from '../store/user';
 
 const router = useRouter();
+const route = useRoute();
 const userStore = useUserStore();
 
 const loginForm = ref({
@@ -17,11 +18,12 @@ const handleLogin = async e => {
   userStore.login(loginForm.value)
     .then(() => {
       ElMessage.success("登陆成功！");
-      router.push('/');
+      // 登录成功后跳转到之前要访问的页面或者首页
+      router.push(route.query.redirect || "/");
     })
     .catch(({ response, request }) => {
       if (response) {
-        ElMessage.warning("登陆失败，请检查您的用户名和密码。");
+        ElMessage.error(response.data.msg ?? "登录失败！");
       } else if (request) {
         ElMessage.error("网络请求出错");
       }
@@ -57,7 +59,7 @@ const handleLogin = async e => {
           </el-form-item>
         </el-form>
         <div class="register-link">
-          没有账号？<router-link to="/register">立即注册</router-link>
+          没有账号？<router-link :to="{ name: 'register', query: route.query }">立即注册</router-link>
         </div>
       </el-col>
     </el-row>
